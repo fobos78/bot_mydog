@@ -31,12 +31,12 @@ bot.on("message", async function (msg) {
   const chatId = msg.chat.id; // Берем ID чата (не отправителя)
   const url = "https://dog.ceo/api/breeds/image/random";
   const photo = await getDog(url);
-  try {
-    const body = await getJoke("https://anekdot.ru/random/anekdot/");
-    bot.sendPhoto(chatId, photo, { caption: body });
-  } catch (err) {
-    console.log(err);
-  }
-    // bot.sendPhoto(chatId, photo, { caption: 'Собачка' });
-    // bot.sendText()
+//   try {
+//     const body = await getJoke("https://anekdot.ru/random/anekdot/");
+//     bot.sendPhoto(chatId, photo, { caption: body });
+//   } catch (err) {
+//     console.log(err);
+//   }
+    bot.sendPhoto(chatId, photo, { caption: 'Собачка' });
+    bot.sendText()
 });
