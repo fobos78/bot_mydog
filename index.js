@@ -97,6 +97,8 @@ bot.on("callback_query", async (query) => {
   const chatId = query.message.chat.id;
   if (query.data === "dog") {
     const photoDog = await getDog("https://dog.ceo/api/breeds/image/random");
+    // let dog = () => queryDog++;
+    // dog();
     bot.sendPhoto(chatId, photoDog, {
       caption: ++queryDog,
       reply_markup: {
@@ -106,6 +108,8 @@ bot.on("callback_query", async (query) => {
   }
   if (query.data === "cat") {
     const photoCat = await getCat("https://api.thecatapi.com/v1/images/search");
+    // let cat = () => queryCat++;
+    // cat();
     bot.sendPhoto(chatId, photoCat, {
       caption: ++queryCat,
       reply_markup: {
