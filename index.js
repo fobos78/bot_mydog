@@ -90,23 +90,13 @@ bot.on("message", (msg) => {
 bot.on("callback_query", async (query) => {
   let body = "test";
   let img = "";
-
   const chatId = query.message.chat.id;
-  const photoDog = await getDog("https://dog.ceo/api/breeds/image/random");
-  const photoCat = await getCat("https://api.thecatapi.com/v1/images/search");
-  try {
-        body = await getJoke("https://anekdot.ru/random/anekdot/");
-        // bot.sendPhoto(chatId, photo, { caption: body });
-      } catch (err) {
-        console.log(err);
-      }
-
   if (query.data === "dog") {
-    // если кот
+    const photoDog = await getDog("https://dog.ceo/api/breeds/image/random");
     img = photoDog;
   }
   if (query.data === "cat") {
-    // если кот
+    const photoCat = await getCat("https://api.thecatapi.com/v1/images/search");
     img = photoCat;
   }
 
@@ -117,6 +107,12 @@ bot.on("callback_query", async (query) => {
       },
     });
   } else if (query.data === "joc") {
+    try {
+      body = await getJoke("https://anekdot.ru/random/anekdot/");
+      // bot.sendPhoto(chatId, photo, { caption: body });
+    } catch (err) {
+      console.log(err);
+    }
       bot.sendMessage(chatId, body, {
         reply_markup: {
           inline_keyboard: keyboard,
