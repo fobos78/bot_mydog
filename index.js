@@ -5,6 +5,10 @@ const puppeteer = require("puppeteer");
 const token = "1275537299:AAHXGkrVkqSAs3JGSrcNSIQ-P3VWRIkyHZw";
 const bot = new TelegramBot(token, { polling: true });
 
+let queryCat = 0;
+let queryDog = 0;
+let queryJoc = 0;
+
 const keyboard = [
   [
     {
@@ -93,36 +97,42 @@ bot.on("callback_query", async (query) => {
   const chatId = query.message.chat.id;
   if (query.data === "dog") {
     const photoDog = await getDog("https://dog.ceo/api/breeds/image/random");
-    img = photoDog;
-  }
-  if (query.data === "cat") {
-    const photoCat = await getCat("https://api.thecatapi.com/v1/images/search");
-    img = photoCat;
-  }
-
-  if (img) {
-    bot.sendPhoto(chatId, img, {
+    bot.sendPhoto(chatId, photoDog, {
+      caption: ++queryDog,
       reply_markup: {
         inline_keyboard: keyboard,
       },
     });
-  } else if (query.data === "joc") {
+  }
+  if (query.data === "cat") {
+    const photoCat = await getCat("https://api.thecatapi.com/v1/images/search");
+    bot.sendPhoto(chatId, photoCat, {
+      caption: ++queryCat,
+      reply_markup: {
+        inline_keyboard: keyboard,
+      },
+    });
+  }
+
+  if (query.data === "joc") {
+    queryJoc++;
     try {
       body = await getJoke("https://anekdot.ru/random/anekdot/");
       // bot.sendPhoto(chatId, photo, { caption: body });
     } catch (err) {
       console.log(err);
     }
-      bot.sendMessage(chatId, body, {
+      bot.sendMessage(chatId, `${body} - анекдот № ${queryJoc}` , {
         reply_markup: {
           inline_keyboard: keyboard,
         },
     });
-  } else {
-    bot.sendMessage(chatId, "Непонятно, давай попробуем ещё раз?", {
-      reply_markup: {
-        inline_keyboard: keyboard,
-      },
-    });
-  }
+  } 
+  // else {
+  //   bot.sendMessage(chatId, "Непонятно, давай попробуем ещё раз?", {
+  //     reply_markup: {
+  //       inline_keyboard: keyboard,
+  //     },
+  //   });
+  // }
 });
